@@ -13,6 +13,14 @@
                 $this->validateLastname($ln);
                 $this->validateEmails($em, $em2);
                 $this->validatePasswords($pw, $pw2);
+
+                if(empty($this->errorArray) == true) {
+                    //Insert into db
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
             private function validateUsername($un) {
                 if(strlen($un) > 25 || strlen($un) < 5) {
@@ -40,9 +48,28 @@
                     array_push($this->errorArray, "Your emails don't match");
                     return;
                 }
+                if(!filter_var($em, FILTER_VALIDATE_EMAIL)) {
+                    array_push($this->errorArray, "Email is invalid");
+                    return;
+                }
+                //TODO: Check that username hasn't already been used. 
+
             
             }
             private function validatePasswords($pw, $pw2) {
+                if($pw != $pw2) {
+                    array_push($this->errorArray, "Your passwords don't match");
+                }
+
+                if(preg_match('.*[^a-zA-Z0-9_].*', $pw)) {
+                    array_push($this->errorArray, "Your passwords can only contain numbers and letters");
+
+
+                }
+                if(strlen($pw) > 30 || strlen($pw) < 5) {
+                    array_push($this->errorArray, "Your password must be between 5 and 30 characters");
+                    return;
+                }
             
             }
         
