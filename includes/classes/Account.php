@@ -6,7 +6,7 @@
 		private $errorArray;
 
 		public function __construct($con) {
-			this->con = $con;
+			$this->con = $con;
 			$this->errorArray = array();
 		}
 
@@ -35,8 +35,13 @@
 		}
 
 		private function insertUserDetails($un, $fn, $ln, $em, $pw) {
-			$encryptedPW = md5($pw); 
+			$encryptedPw = md5($pw);
+			$profilePic = "assests/images/profile-pics/head_emerald.png";
+			$date = date("Y-m-d");
 
+			$result = mysqli_query($this->con, "INSERT INTO users VALUES ('', '$un', '$fn', '$ln', '$em', '$encryptedPw', '$date', '$profilePic')");
+
+			return $result;
 
 		}
 
